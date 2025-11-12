@@ -15,6 +15,7 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 
 class MainActivity : AppCompatActivity() {
+    lateinit var btnConnect : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,10 +28,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val btnConnect = findViewById<Button>(R.id.btnConnect)
+        btnConnect = findViewById<Button>(R.id.btnConnect)
         val nom = findViewById<EditText>(R.id.nom)
         val ip = findViewById<EditText>(R.id.ip)
 
+        WebSocketManager.setActiveActivity(this)
 
         btnConnect.setOnClickListener {
 
@@ -43,24 +45,6 @@ class MainActivity : AppCompatActivity() {
 
                 Toast.makeText(this, "Conectando con $txtIp", Toast.LENGTH_SHORT).show()
                 btnConnect.text = "Connecting ..."
-
-                WebSocketManager.onConnected = {
-                    runOnUiThread {
-
-
-                        val intent = Intent(this@MainActivity, WaitingActivity::class.java)
-                        startActivity(intent)
-
-                    }
-                }
-
-
-                WebSocketManager.onError = { errorMsg ->
-                    runOnUiThread {
-                        btnConnect.text = "Connect"
-                        Toast.makeText(this, "Error al conectar: $errorMsg", Toast.LENGTH_LONG).show()
-                    }
-                }
 
 
                 WebSocketManager.connect(txtIp)
@@ -76,5 +60,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    fun setWaitingScreen(){
+        val intent = Intent(this@MainActivity, WaitingActivity::class.java)
+        startActivity(intent)
+    }
+
 
 }

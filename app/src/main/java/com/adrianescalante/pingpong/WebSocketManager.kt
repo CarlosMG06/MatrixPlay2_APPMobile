@@ -2,8 +2,11 @@ package com.adrianescalante.pingpong
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
 import org.json.JSONObject
+import java.lang.ref.WeakReference
 
 object WebSocketManager {
 
@@ -11,57 +14,84 @@ object WebSocketManager {
     private var webSocket: WebSocket? = null
     private var isConnected = false
 
-    var onMessageReceived: ((String) -> Unit)? = null
-    var onConnected: (() -> Unit)? = null
-    var onError: ((String) -> Unit)? = null
+    private var currentActivity: WeakReference<AppCompatActivity>? = null
 
-
+    fun setActiveActivity(activity: AppCompatActivity) {
+        currentActivity = WeakReference(activity)
+    }
 
     fun connect(ip: String) {
-        if (isConnected) return
-
-        val request = Request.Builder()
-            .url("wss://$ip:443")
-            .build()
+        val request = Request.Builder().url("ws://$ip:443").build()
 
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
             override fun onOpen(ws: WebSocket, response: Response) {
-                isConnected = true
-                Log.d("WebSocket", "Conectado al servidor")
-                onConnected?.invoke()
+                Log.i("WebSocket", "Conectado al servidor $ip")
+                setActivityView(WaitingActivity::class.java)
+
             }
 
             override fun onMessage(ws: WebSocket, text: String) {
-                Log.d("WebSocket", "Mensaje: $text")
-
-                onMessageReceived?.invoke(text)
-                val json = JSONObject(text)
-                val type = json.getString("type")
-
-                when (type){
-                    Cons.T_COUNTDOWN -> Intent()
-                }
+                handleMessage(text)
             }
 
             override fun onFailure(ws: WebSocket, t: Throwable, response: Response?) {
-                isConnected = false
-                Log.e("WebSocket", "Error: ${t.message}")
-                onError?.invoke(t.message ?: "Error desconocido")
-            }
+                Log.e("WebSocket", "Error de conexión", t)
 
-            override fun onClosing(ws: WebSocket, code: Int, reason: String) {
-                isConnected = false
-                ws.close(1000, null)
+                (currentActivity?.get() as? MainActivity)?.btnConnect?.text = "Connect"
+
+                currentActivity?.get()?.runOnUiThread {
+                    Toast.makeText(currentActivity?.get(), "Error de conexión", Toast.LENGTH_LONG).show()
+                }
             }
         })
     }
 
-    fun sendMessage(msg: String) {
-        webSocket?.send(msg)
+    fun setActivityView(activityClass: Class<out AppCompatActivity>) {
+
+        val current = currentActivity?.get()
+
+        if (current != null && current::class.java != activityClass) {
+            val intent = Intent(current, activityClass)
+            current.startActivity(intent)
+        }
     }
 
-    fun close() {
-        webSocket?.close(1000, "Cerrando")
-        isConnected = false
+    private fun handleMessage(message: String) {
+        try {
+            val json = JSONObject(message)
+            val type = json.optString(Cons.K_TYPE, "")
+            //Toast.makeText(it, "Error: ${json.optString("msg")}", Toast.LENGTH_SHORT).show()
+
+            when (type) {
+                Cons.T_COUNTDOWN -> {
+
+                    val js = JSONObject(json.optString(Cons.K_VALUE))
+                    val player1 = js.optString("player1")
+                    val player2 = js.optString("player2")
+                    val msgCountdown = js.optString("msgCountDown")
+
+                    (currentActivity?.get() as? CountdownActivity)?.initCountdown(player1,player2,msgCountdown)
+                }
+
+                Cons.T_SERVER_START_GAME -> {
+                    //(currentActivity?.get() as? GameActivity)?.onServerStart(json)
+                }
+
+//                "Error" -> {
+//                    currentActivity?.get()?.runOnUiThread {
+//                        Toast.makeText(it, "Error: ${json.optString("msg")}", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+
+
+            }
+
+        } catch (e: Exception) {
+            Log.e("WebSocket", "Error procesando mensaje", e)
+        }
+    }
+
+    fun send(json: JSONObject) {
+        webSocket?.send(json.toString())
     }
 }
