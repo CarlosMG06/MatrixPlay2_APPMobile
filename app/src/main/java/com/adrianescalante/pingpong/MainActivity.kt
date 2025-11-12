@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         btnConnect.setOnClickListener {
 
-            btnConnect.text = "Connecting ..."
+
 
             val txtNom = nom.text.toString()
             val txtIp = ip.text.toString()
@@ -42,30 +42,33 @@ class MainActivity : AppCompatActivity() {
             if (txtIp.isNotEmpty() && txtNom.isNotEmpty()) {
 
                 Toast.makeText(this, "Conectando con $txtIp", Toast.LENGTH_SHORT).show()
+                btnConnect.text = "Connecting ..."
 
                 WebSocketManager.onConnected = {
                     runOnUiThread {
 
+
                         val intent = Intent(this@MainActivity, WaitingActivity::class.java)
                         startActivity(intent)
-                        finish()
+
                     }
                 }
 
 
                 WebSocketManager.onError = { errorMsg ->
                     runOnUiThread {
+                        btnConnect.text = "Connect"
                         Toast.makeText(this, "Error al conectar: $errorMsg", Toast.LENGTH_LONG).show()
                     }
                 }
 
 
-                WebSocketManager.connect(txtIp, 433)
+                WebSocketManager.connect(txtIp)
 
 
 
             } else {
-                Toast.makeText(this, "No vacio", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No espacios vacios", Toast.LENGTH_SHORT).show()
             }
 
 
@@ -73,4 +76,5 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 }

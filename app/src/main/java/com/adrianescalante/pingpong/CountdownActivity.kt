@@ -1,37 +1,20 @@
 package com.adrianescalante.pingpong
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class WaitingActivity : AppCompatActivity() {
-
-    lateinit var msgNom : TextView
-
+class CountdownActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        setContentView(R.layout.activity_waiting)
-
+        setContentView(R.layout.activity_countdown)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        msgNom = findViewById<TextView>(R.id.msgNom)
-
-
-        // WebSocketManager.sendMessage("{\"msg\":\"msg \"}")
     }
-
-    public fun setNom(msg : String){
-        msgNom.text = msg
-    }
-
 }

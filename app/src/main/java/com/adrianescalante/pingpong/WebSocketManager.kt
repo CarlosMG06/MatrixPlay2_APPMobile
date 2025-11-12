@@ -1,7 +1,9 @@
 package com.adrianescalante.pingpong
 
+import android.content.Intent
 import android.util.Log
 import okhttp3.*
+import org.json.JSONObject
 
 object WebSocketManager {
 
@@ -15,11 +17,11 @@ object WebSocketManager {
 
 
 
-    fun connect(ip: String, port: Int) {
+    fun connect(ip: String) {
         if (isConnected) return
 
         val request = Request.Builder()
-            .url("wss://$ip:$port")
+            .url("wss://$ip:443")
             .build()
 
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
@@ -31,7 +33,14 @@ object WebSocketManager {
 
             override fun onMessage(ws: WebSocket, text: String) {
                 Log.d("WebSocket", "Mensaje: $text")
+
                 onMessageReceived?.invoke(text)
+                val json = JSONObject(text)
+                val type = json.getString("type")
+
+                when (type){
+                    Cons.T_COUNTDOWN -> Intent()
+                }
             }
 
             override fun onFailure(ws: WebSocket, t: Throwable, response: Response?) {
