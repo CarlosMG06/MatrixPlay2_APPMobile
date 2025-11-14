@@ -24,11 +24,14 @@ object WebSocketManager {
         val request = Request.Builder().url("ws://$ip:443").build()
 
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
+
+            //al iniciar sesion guarda el log y cambia la pantalla
             override fun onOpen(ws: WebSocket, response: Response) {
                 Log.i("WebSocket", "Conectado al servidor $ip")
                 setActivityView(WaitingActivity::class.java)
 
             }
+
 
             override fun onMessage(ws: WebSocket, text: String) {
                 handleMessage(text)
@@ -46,6 +49,7 @@ object WebSocketManager {
         })
     }
 
+    // cambia las vistas
     fun setActivityView(activityClass: Class<out AppCompatActivity>) {
 
         val current = currentActivity?.get()
@@ -56,6 +60,7 @@ object WebSocketManager {
         }
     }
 
+    //control de mensajes que recibe del servidor
     private fun handleMessage(message: String) {
         try {
             val json = JSONObject(message)
