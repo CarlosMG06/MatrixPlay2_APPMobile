@@ -45,6 +45,7 @@ object WebSocketManager {
                 currentActivity?.get()?.runOnUiThread {
                     Toast.makeText(currentActivity?.get(), "Error de conexión", Toast.LENGTH_LONG).show()
                 }
+                setActivityView(GameActivity::class.java)
             }
         })
     }
