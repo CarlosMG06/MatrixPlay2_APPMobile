@@ -1,13 +1,17 @@
 package com.adrianescalante.pingpong
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.json.JSONObject
 
-class CountdownActivity : AppCompatActivity() {
+class CountdownActivity : AppCompatActivity() , ServerEventListener{
 
     var onScreen = false
     lateinit var msgCountdown : TextView
@@ -31,13 +35,42 @@ class CountdownActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        WebSocketManager.setListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        WebSocketManager.setListener(null)
+    }
+
+    override fun onServerMessage(json: JSONObject) {
+        runOnUiThread {
+            val type = json.getString(Cons.K_TYPE)
+            when (type) {
+                Cons.T_COUNTDOWN -> {
+
+                    val js = JSONObject(json.optString(Cons.K_VALUE))
+                    val player1 = js.optString("player1")
+                    val player2 = js.optString("player2")
+                    val msgCountdown = js.optString("msgCountDown")
+
+                    initCountdown(player1,player2,msgCountdown)
+
+                    if(msgCountdown.equals("0")){
+
+                        val intent = Intent(this, GameActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+
+            }
+        }
+    }
     fun initCountdown(player1 : String, player2 : String, msgCountdown :String){
 
-
-
-
-        WebSocketManager.setActivityView(this@CountdownActivity::class.java)
-
+        //Toast.makeText(this, "Cuenta atras $msgCountdown", Toast.LENGTH_SHORT).show()
         this.player1.text = player1
         this.player2.text = player2
         this.msgCountdown.text = msgCountdown
