@@ -31,9 +31,7 @@ object WebSocketManager {
         val json = JSONObject(msg)
         listener?.onServerMessage(json)
     }
-    fun setActiveActivity(activity: AppCompatActivity) {
-        currentActivity = WeakReference(activity)
-    }
+
 
     fun connect(ip: String) {
         val request = Request.Builder().url("ws://$ip:3000").build()
@@ -54,12 +52,6 @@ object WebSocketManager {
             override fun onFailure(ws: WebSocket, t: Throwable, response: Response?) {
                 Log.e("WebSocket", "Error de conexión", t)
 
-                (currentActivity?.get() as? MainActivity)?.btnConnect?.text = "Connect"
-
-                currentActivity?.get()?.runOnUiThread {
-                    Toast.makeText(currentActivity?.get(), "Error de conexión", Toast.LENGTH_LONG).show()
-                }
-                //setActivityView(GameActivity::class.java)
             }
         })
     }

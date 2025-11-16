@@ -38,6 +38,7 @@
         android:ems="10"
         android:hint="ingrese Nom"
         android:inputType="text"
+        android:text="asd"
         android:textColor="#FFFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -52,7 +53,7 @@
         android:background="#636CCB"
         android:ems="10"
         android:inputType="text"
-        android:text="matrixplay2.ieti.site"
+        android:text="10.0.2.2"
         android:textColor="#FFFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nom" />

@@ -58,8 +58,27 @@ class CountdownActivity : AppCompatActivity() , ServerEventListener{
 
                     initCountdown(player1,player2,msgCountdown)
 
-                    if(msgCountdown.equals("0")){
+                    //revisamos si somos el player 1 o 2
+                    //y asignamos el nombre del rival
+                    //solo entramos una ves
+                    if(msgCountdown.equals("5")){
 
+
+
+                        if(player1.equals(Globals.clientName)){
+                            Globals.player=1
+
+                            Globals.rivalName = player2
+                        }else{
+                            Globals.player=2
+
+                            Globals.rivalName = player1
+                        }
+
+                    }
+
+                    //
+                    if(msgCountdown.equals("0")){
                         val intent = Intent(this, GameActivity::class.java)
                         startActivity(intent)
                     }

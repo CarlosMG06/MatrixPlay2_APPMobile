@@ -22,7 +22,7 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity() , ServerEventListener {
     lateinit var btnConnect: Button
     lateinit var msgStatusName: TextView
-    lateinit var clientName: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() , ServerEventListener {
                 Toast.makeText(this, "Conectando con $txtIp", Toast.LENGTH_SHORT).show()
                 btnConnect.text = "Connecting ..."
 
-                clientName = txtNom
+                Globals.clientName = txtNom
 
                 WebSocketManager.connect(txtIp)
 
@@ -65,12 +65,6 @@ class MainActivity : AppCompatActivity() , ServerEventListener {
         }
 
     }
-
-    fun setWaitingScreen() {
-        val intent = Intent(this@MainActivity, WaitingActivity::class.java)
-        startActivity(intent)
-    }
-
 
     fun setMsgStatusName(msg: String) {
         msgStatusName.text = msg
@@ -92,8 +86,8 @@ class MainActivity : AppCompatActivity() , ServerEventListener {
             val type = json.getString(Cons.K_TYPE)
             when (type) {
                 Cons.K_GET_NAME -> {
-                    var js = msg(Cons.CHECK_NAME)
-                        .put(Cons.K_VALUE, clientName)
+                    val js = msg(Cons.CHECK_NAME)
+                        .put(Cons.K_VALUE, Globals.clientName)
 
 
                     send(js)
