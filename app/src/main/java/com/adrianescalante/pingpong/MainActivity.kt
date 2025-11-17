@@ -88,8 +88,6 @@ class MainActivity : AppCompatActivity() , ServerEventListener {
                 Cons.K_GET_NAME -> {
                     val js = msg(Cons.CHECK_NAME)
                         .put(Cons.K_VALUE, Globals.clientName)
-
-
                     send(js)
                 }
 
@@ -99,7 +97,7 @@ class MainActivity : AppCompatActivity() , ServerEventListener {
                     val statusNombre = json.optString(Cons.K_VALUE)
 
                     //si esta disponible entramos a esperar
-                    if (statusNombre.equals(Cons.K_NAME_AVALIBLE)) {
+                    if (statusNombre.equals(Cons.K_NAME_AVAILABLE)) {
 
                         val intent = Intent(this, WaitingActivity::class.java)
                         startActivity(intent)

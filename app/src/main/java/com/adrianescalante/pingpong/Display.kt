@@ -28,15 +28,8 @@ class Display @JvmOverloads constructor(
     private var p2Points = 0
 
 
-
-
     private var scaleX = 1f
     private var scaleY = 1f
-
-
-
-
-
 
     private var ballY = 0f
     private var ballX = 0f
@@ -45,6 +38,7 @@ class Display @JvmOverloads constructor(
 
     private var p1PossY = 0f
     private var p2PossY = 0f
+
 
     private var p1PossX = 0f
     private var p2PossX = 61f
@@ -140,13 +134,12 @@ class Display @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+
         // Fons
         canvas.drawColor(Color.parseColor("#636CCB"))
         drawPoints(canvas)
         drawBall(canvas)
         drawRects(canvas)
-
-
 
     }
 

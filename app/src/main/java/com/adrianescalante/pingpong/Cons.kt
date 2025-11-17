@@ -17,7 +17,7 @@ object Cons {
 
     const val C_NAME: String = "clientName"
 
-    const val K_NAME_AVALIBLE: String = "NameAvalible"
+    const val K_NAME_AVAILABLE: String = "NameAvailable"
 
     const val K_NAME_USED: String = "NameUsed"
 
