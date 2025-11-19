@@ -75,12 +75,13 @@
 
     <TextView
         android:id="@+id/msgStatusName"
-        android:layout_width="179dp"
-        android:layout_height="29dp"
+        android:layout_width="319dp"
+        android:layout_height="33dp"
         android:fontFamily="@font/m6x11plus"
         android:text="Nom: "
         android:textColor="#FFFFFFFF"
         android:textSize="25sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/ip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
