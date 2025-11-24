@@ -34,7 +34,7 @@ object WebSocketManager {
 
 
     fun connect(ip: String) {
-        val request = Request.Builder().url("wss://$ip:443").build()
+        val request = Request.Builder().url("ws://$ip:3000").build()
 
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
 

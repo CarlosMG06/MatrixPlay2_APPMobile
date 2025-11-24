@@ -116,6 +116,19 @@ class GameActivity : AppCompatActivity() , ServerEventListener{
                     display.setDatos(jo)
 
                 }
+
+                Cons.INIT_ROUND_COUNT_DOWN -> {
+                    val count = json.optInt(Cons.K_VALUE)
+                    display.roundCountDown(count)
+
+                }
+
+                Cons.T_WINNER -> {
+                    val winner = json.optString("winner")
+                    val intent = Intent(this, WinnerActivity::class.java)
+                        .putExtra("winner",winner)
+                    startActivity(intent)
+                }
             }
         }
     }

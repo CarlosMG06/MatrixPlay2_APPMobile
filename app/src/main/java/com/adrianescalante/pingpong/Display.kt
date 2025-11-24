@@ -24,6 +24,17 @@ class Display @JvmOverloads constructor(
         isAntiAlias = false
         typeface = pixelTypeface
     }
+
+    private val paintCountDown = Paint().apply {
+        color = Color.WHITE
+        textSize = 40f
+        isAntiAlias = false
+        typeface = pixelTypeface
+    }
+
+    private var isRoundCountDown = false
+    private var countDown = 3
+
     private var p1Points =0
     private var p2Points = 0
 
@@ -60,6 +71,7 @@ class Display @JvmOverloads constructor(
         ballSize*=scaleX
 
         paintText.textSize=15*scaleX;
+        paintCountDown.textSize=40*scaleX;
 
         p1PossX*=scaleX
         p2PossX*=scaleX
@@ -141,6 +153,21 @@ class Display @JvmOverloads constructor(
         drawBall(canvas)
         drawRects(canvas)
 
+        if(isRoundCountDown){
+            drawCountDown(canvas)
+        }
+
+    }
+
+    fun drawCountDown(canvas : Canvas){
+
+        //p1 points
+        canvas.drawText(
+            countDown.toString(),
+            (width*0.4).toFloat(),
+            (height*0.5).toFloat(),
+            paintCountDown
+        )
     }
 
     fun setDatos(json : JSONObject){
@@ -155,5 +182,17 @@ class Display @JvmOverloads constructor(
 
         invalidate()
     }
+
+    fun roundCountDown(count : Int ){
+        isRoundCountDown = true
+        countDown = count
+
+        if(count==0){
+            isRoundCountDown=false
+        }
+
+        invalidate()
+    }
+
 
 }

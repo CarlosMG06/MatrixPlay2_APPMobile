@@ -32,4 +32,15 @@ object Cons {
     const val C_MOVE: String = "clientMove"
 
     const val C_INPUT: String = "input"
+
+
+    const val INIT_ROUND_COUNT_DOWN: String = "roundCountDown"
+
+
+    const val ROUND_COUNT_DOWN: String = "msgCountDown"
+
+
+    const val T_WINNER: String = "winner"
+
+
 }
