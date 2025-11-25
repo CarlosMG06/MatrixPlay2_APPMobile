@@ -10,18 +10,18 @@
 
     <TextView
         android:id="@+id/txtWinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="279dp"
+        android:layout_height="73dp"
         android:fontFamily="@font/m6x11plus"
-        android:text="Ping Pong"
+        android:text="Winner: xxxxx"
         android:textColor="#FFFFFFFF"
         android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintHorizontal_bias="0.469"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.417" />
+        app:layout_constraintVertical_bias="0.446" />
 
     <Button
         android:id="@+id/btnSalir"
@@ -29,7 +29,7 @@
         android:layout_height="49dp"
         android:background="#50589C"
         android:fontFamily="@font/m6x11plus"
-        android:text="Connect"
+        android:text="Exit"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         android:layout_height="49dp"
         android:background="#50589C"
         android:fontFamily="@font/m6x11plus"
-        android:text="Connect"
+        android:text="Play Again"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

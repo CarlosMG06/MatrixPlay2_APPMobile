@@ -35,12 +35,10 @@ object Cons {
 
 
     const val INIT_ROUND_COUNT_DOWN: String = "roundCountDown"
-
-
-    const val ROUND_COUNT_DOWN: String = "msgCountDown"
-
-
     const val T_WINNER: String = "winner"
+    const val C_PLAY_AGAIN: String = "playAgain"
+
+    const val C_EXIT : String = "exit"
 
 
 }

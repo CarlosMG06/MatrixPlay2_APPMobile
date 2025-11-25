@@ -124,7 +124,7 @@ class GameActivity : AppCompatActivity() , ServerEventListener{
                 }
 
                 Cons.T_WINNER -> {
-                    val winner = json.optString("winner")
+                    val winner = json.optString(Cons.K_VALUE)
                     val intent = Intent(this, WinnerActivity::class.java)
                         .putExtra("winner",winner)
                     startActivity(intent)

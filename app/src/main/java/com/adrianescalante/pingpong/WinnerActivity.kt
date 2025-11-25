@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.json.JSONArray
 import org.json.JSONObject
 
 class WinnerActivity : AppCompatActivity() , ServerEventListener{
@@ -31,13 +32,45 @@ class WinnerActivity : AppCompatActivity() , ServerEventListener{
         txtWinner= findViewById(R.id.txtWinner)
         btnReplay=findViewById(R.id.btnReplay)
         btnSalir=findViewById(R.id.btnSalir)
+
+        val nom = intent.getStringExtra("winner")
+        txtWinner.text = nom ?: "No winner"
+
+        btnReplay.setOnClickListener {
+
+            var jo = JSONObject()
+                .put(Cons.K_TYPE,Cons.C_PLAY_AGAIN)
+                .put(Cons.K_VALUE, Globals.clientName)
+
+            WebSocketManager.send(jo)
+
+            val intent = Intent(this, WaitingActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnSalir.setOnClickListener {
+            var jo = JSONObject()
+                .put(Cons.K_TYPE,Cons.C_EXIT)
+                .put(Cons.K_VALUE, Globals.clientName)
+
+            WebSocketManager.send(jo)
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         WebSocketManager.setListener(this)
         val nom = intent.getStringExtra("winner")
-        txtWinner.text=nom
+
+
+        if (nom.isNullOrEmpty()) {
+            txtWinner.text = "No winner received"
+        } else {
+            txtWinner.text = "Winner: $nom"
+        }
     }
 
     override fun onPause() {
@@ -49,7 +82,7 @@ class WinnerActivity : AppCompatActivity() , ServerEventListener{
         runOnUiThread {
             val type = json.getString(Cons.K_TYPE)
             when (type) {
-                
+
 
             }
         }
