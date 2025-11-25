@@ -1,6 +1,7 @@
 package com.adrianescalante.pingpong
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -13,7 +14,6 @@ import org.json.JSONObject
 
 class CountdownActivity : AppCompatActivity() , ServerEventListener{
 
-    var onScreen = false
     lateinit var msgCountdown : TextView
     lateinit var player1 : TextView
     lateinit var player2 : TextView
@@ -21,6 +21,7 @@ class CountdownActivity : AppCompatActivity() , ServerEventListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         setContentView(R.layout.activity_countdown)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

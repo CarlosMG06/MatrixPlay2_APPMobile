@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import org.json.JSONObject
+import kotlin.concurrent.thread
 
 class WaitingActivity : AppCompatActivity() , ServerEventListener{
 
-    lateinit var msgNom : TextView
+    lateinit var txtWaiting : TextView
+    var animacion = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +28,17 @@ class WaitingActivity : AppCompatActivity() , ServerEventListener{
             insets
         }
 
-        msgNom = findViewById<TextView>(R.id.msgNom)
+        txtWaiting = findViewById(R.id.txtWaiting)
 
-
+//        thread {
+//            while (animacion) {
+//                for (i in 0..3) {
+//                    val text = "Waiting for Players" + ".".repeat(i)
+//                    txtWaiting.text = text
+//                    Thread.sleep(800)
+//                }
+//            }
+//        }.start()
         // WebSocketManager.sendMessage("{\"msg\":\"msg \"}")
     }
 
@@ -36,6 +46,7 @@ class WaitingActivity : AppCompatActivity() , ServerEventListener{
         super.onResume()
         WebSocketManager.setListener(this)
 
+        animacion=true
         val jo = JSONObject()
             .put(Cons.K_TYPE,Cons.WAITING_COUNTDOWN)
 
@@ -46,6 +57,7 @@ class WaitingActivity : AppCompatActivity() , ServerEventListener{
 
     override fun onPause() {
         super.onPause()
+        animacion=false
         WebSocketManager.setListener(null)
     }
 
@@ -59,15 +71,13 @@ class WaitingActivity : AppCompatActivity() , ServerEventListener{
                     startActivity(intent)
                 }
             }
-
-
         }
     }
 
 
 
-    public fun setNom(msg : String){
-        msgNom.text = msg
+    public fun setTxtWaiting(msg : String){
+        txtWaiting.text = msg
     }
 
 }
