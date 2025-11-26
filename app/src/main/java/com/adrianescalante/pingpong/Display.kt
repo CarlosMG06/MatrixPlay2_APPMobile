@@ -165,7 +165,7 @@ class Display @JvmOverloads constructor(
         canvas.drawText(
             countDown.toString(),
             (width*0.4).toFloat(),
-            (height*0.5).toFloat(),
+            (height*0.6).toFloat(),
             paintCountDown
         )
     }

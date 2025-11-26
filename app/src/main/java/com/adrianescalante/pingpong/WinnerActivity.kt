@@ -33,6 +33,9 @@ class WinnerActivity : AppCompatActivity() , ServerEventListener{
         btnReplay=findViewById(R.id.btnReplay)
         btnSalir=findViewById(R.id.btnSalir)
 
+        val nom = intent.getStringExtra("winner")
+        txtWinner.text = "Winner: $nom"
+
         btnReplay.setOnClickListener {
 
             var jo = JSONObject()
