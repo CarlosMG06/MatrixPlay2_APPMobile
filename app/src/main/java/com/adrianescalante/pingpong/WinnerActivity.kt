@@ -33,9 +33,6 @@ class WinnerActivity : AppCompatActivity() , ServerEventListener{
         btnReplay=findViewById(R.id.btnReplay)
         btnSalir=findViewById(R.id.btnSalir)
 
-        val nom = intent.getStringExtra("winner")
-        txtWinner.text = nom ?: "No winner"
-
         btnReplay.setOnClickListener {
 
             var jo = JSONObject()
@@ -65,12 +62,8 @@ class WinnerActivity : AppCompatActivity() , ServerEventListener{
         WebSocketManager.setListener(this)
         val nom = intent.getStringExtra("winner")
 
+        txtWinner.text = "Winner: $nom"
 
-        if (nom.isNullOrEmpty()) {
-            txtWinner.text = "No winner received"
-        } else {
-            txtWinner.text = "Winner: $nom"
-        }
     }
 
     override fun onPause() {
